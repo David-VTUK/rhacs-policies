@@ -1,0 +1,1 @@
+This policy blocks deployments that do not have configured Liveness and Readiness probes.

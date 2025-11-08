@@ -1,0 +1,34 @@
+apiVersion: platform.stackrox.io/v1
+kind: SecurityPolicy
+metadata:
+  name: Enforce_CPU_Memory_Resources
+  namespace: stackrox
+spec:
+  description: Requires all containers in a deployment to specify explicit CPU and Memory requests and limits (non-zero values).
+  rationale: Setting resource requests and limits prevents resource contention and ensures reliable scheduling within the cluster. Missing or zero limits can lead to pod throttling or node instability due to resource starvation or over-commitment.
+  remediation: Specify non-zero CPU and Memory limits and requests for all containers in the deployment manifest.
+  severity: CRITICAL
+  categories:
+    - Security Best Practices
+    - Configuration Management
+  lifecycleStages:
+    - DEPLOY
+  enforcementActions:
+    - FAIL_DEPLOYMENT_CREATE_ENFORCEMENT
+    - FAIL_DEPLOYMENT_UPDATE_ENFORCEMENT
+    - SCALE_TO_ZERO_ENFORCEMENT
+  policySections:
+    - sectionName: Check for Missing or Zero Requests/Limits
+      policyGroups:
+        - fieldName: Container CPU Request
+          values:
+            - value: "0"
+        - fieldName: Container CPU Limit
+          values:
+            - value: "0"
+        - fieldName: Container Memory Request
+          values:
+            - value: "0"
+        - fieldName: Container Memory Limit
+          values:
+            - value: "0"

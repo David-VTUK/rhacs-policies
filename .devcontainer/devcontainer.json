@@ -1,0 +1,16 @@
+{
+	"name": "yaml",
+	"build": {"dockerfile": "Dockerfile"},
+	"customizations": {
+		"vscode": {
+			"settings": {},
+			"extensions": [
+				"streetsidesoftware.code-spell-checker",
+				"redhat.vscode-yaml",
+				"ms-kubernetes-tools.vscode-kubernetes-tools"
+			]
+		}
+	},
+    "workspaceFolder": "/workspace",
+	"workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,Z"
+}

@@ -1,0 +1,1 @@
+This policy enforces deployments have configured CPU and Memory Requests and Limits.

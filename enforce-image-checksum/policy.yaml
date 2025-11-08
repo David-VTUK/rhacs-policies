@@ -1,0 +1,25 @@
+apiVersion: platform.stackrox.io/v1
+kind: SecurityPolicy
+metadata:
+  name: "Enforce_Trusted_Image_Signature"
+  namespace: stackrox 
+spec:
+  description: "Blocks deployment of images that are not signed, or whose signatures cannot be verified by the configured trusted image signers. This ensures image authenticity and integrity (checksum verification)."
+  rationale: "Images must be signed to ensure they have not been tampered with since they were built. Validating the signature acts as an implicit checksum requirement."
+  remediation: "Sign the image using a trusted Cosign key or certificate verification chain configured in RHACS, or exclude the image/deployment from this policy scope."
+  severity: CRITICAL
+  categories:
+    - "Integrity"
+    - "Security Best Practices"
+  lifecycleStages:
+    - "DEPLOY"
+  enforcementActions:
+    - "FAIL_DEPLOYMENT_CREATE_ENFORCEMENT"
+    - "FAIL_DEPLOYMENT_UPDATE_ENFORCEMENT"
+  policySections:
+    - sectionName: "Check for unverified or missing signatures"
+      policyGroups:
+        - fieldName: "Image Signature Verified By"
+          booleanOperator: OR
+          values:
+            - value: io.stackrox.signatureintegration.12a37a37-760e-4388-9e79-d62726c075b2

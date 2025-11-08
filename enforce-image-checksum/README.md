@@ -1,0 +1,1 @@
+This policy blocks deployment of images that are not signed.

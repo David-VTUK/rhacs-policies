@@ -1,0 +1,1 @@
+This policy blocks deployments that use the EmptyDir volume type, a common form of ephemeral storage.

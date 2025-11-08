@@ -1,0 +1,27 @@
+apiVersion: config.stackrox.io/v1alpha1
+kind: SecurityPolicy
+metadata:
+  name: disallow-ephemeral-storage-emptydir-block
+spec:
+  policyName: Disallow Ephemeral Storage (EmptyDir Block)
+  description: Blocks deployments that use the EmptyDir volume type, a common form of ephemeral storage.
+  rationale: EmptyDir volumes are temporary and are not suitable for production persistence, and unconstrained ephemeral storage requests can lead to resource instability.
+  remediation: Replace EmptyDir volumes with appropriate PersistentVolumeClaims (PVCs) for storage.
+  categories:
+    - Configuration Management
+  lifecycleStages:
+    - DEPLOY
+  eventSource: NOT_APPLICABLE
+  severity: HIGH_SEVERITY
+  enforcementActions:
+    - FAIL_DEPLOYMENT_CREATE_ENFORCEMENT
+    - FAIL_DEPLOYMENT_UPDATE_ENFORCEMENT
+  policySections:
+    - policyGroups:
+        - fieldName: Volume Type
+          booleanOperator: OR
+          values:
+            - value: EmptyDir
+  criteriaLocked: false
+  mitreVectorsLocked: false
+  isDefault: false

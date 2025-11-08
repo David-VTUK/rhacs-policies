@@ -1,0 +1,1 @@
+This policy enforces the root filesystem of all containers is mounted as read-only.
