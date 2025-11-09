@@ -1,0 +1,29 @@
+apiVersion: config.stackrox.io/v1alpha1
+kind: SecurityPolicy
+metadata:
+  name: enforce-image-digest
+  namespace: rhacs-operator 
+spec:
+  policyName: "Enforce Image Digest (No Tags)"
+  description: "Flags all deployments that use a mutable image tag instead of an immutable digest (checksum)."
+  rationale: "Deployments should use immutable image digests (e.g., image@sha256:...) to prevent tag substitution and ensure the image being deployed is the exact image that was tested and approved. Using tags (e.g., image:latest) can lead to deploying unintended or untested code."
+  remediation: "Update the deployment manifest to reference the image by its digest instead of its tag."  
+  severity: HIGH_SEVERITY
+  lifecycleStages:
+    - DEPLOY
+  enforcementActions:
+    - FAIL_DEPLOYMENT_CREATE_ENFORCEMENT
+    - FAIL_DEPLOYMENT_UPDATE_ENFORCEMENT
+    - SCALE_TO_ZERO_ENFORCEMENT
+    - UNSATISFIABLE_NODE_CONSTRAINT_ENFORCEMENT  
+  categories:
+    - "Security Best Practices"
+    - "DevOps Best Practices"
+  policySections:
+    - sectionName: Rule 1
+      policyGroups:
+        - fieldName: Image Tag
+          negate: true
+          booleanOperator: OR
+          values:
+            - value: .*@.*

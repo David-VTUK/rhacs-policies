@@ -1,0 +1,1 @@
+This policy blocks deployments that use a image label vs digest (ie `:latest` vs `@sha256:`)
