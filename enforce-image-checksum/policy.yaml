@@ -16,8 +16,10 @@ spec:
   scope:
     - namespace: rhacs-test-policies
   enforcementActions:
-    - "FAIL_DEPLOYMENT_CREATE_ENFORCEMENT"
-    - "FAIL_DEPLOYMENT_UPDATE_ENFORCEMENT"
+    - FAIL_DEPLOYMENT_CREATE_ENFORCEMENT
+    - FAIL_DEPLOYMENT_UPDATE_ENFORCEMENT
+    - SCALE_TO_ZERO_ENFORCEMENT
+    - UNSATISFIABLE_NODE_CONSTRAINT_ENFORCEMENT
   policySections:
     - sectionName: "Check for unverified or missing signatures"
       policyGroups:
