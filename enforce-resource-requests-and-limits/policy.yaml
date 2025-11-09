@@ -2,7 +2,7 @@ apiVersion: platform.stackrox.io/v1
 kind: SecurityPolicy
 metadata:
   name: Enforce_CPU_Memory_Resources
-  namespace: stackrox
+  namespace: rhacs-operator
 spec:
   description: Requires all containers in a deployment to specify explicit CPU and Memory requests and limits (non-zero values).
   rationale: Setting resource requests and limits prevents resource contention and ensures reliable scheduling within the cluster. Missing or zero limits can lead to pod throttling or node instability due to resource starvation or over-commitment.
@@ -13,6 +13,8 @@ spec:
     - Configuration Management
   lifecycleStages:
     - DEPLOY
+  scope:
+    - namespace: rhacs-test-policies
   enforcementActions:
     - FAIL_DEPLOYMENT_CREATE_ENFORCEMENT
     - FAIL_DEPLOYMENT_UPDATE_ENFORCEMENT

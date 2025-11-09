@@ -2,7 +2,7 @@ apiVersion: platform.stackrox.io/v1
 kind: SecurityPolicy
 metadata:
   name: "Enforce_Trusted_Image_Signature"
-  namespace: stackrox 
+  namespace: rhacs-operator
 spec:
   description: "Blocks deployment of images that are not signed, or whose signatures cannot be verified by the configured trusted image signers. This ensures image authenticity and integrity (checksum verification)."
   rationale: "Images must be signed to ensure they have not been tampered with since they were built. Validating the signature acts as an implicit checksum requirement."
@@ -13,6 +13,8 @@ spec:
     - "Security Best Practices"
   lifecycleStages:
     - "DEPLOY"
+  scope:
+    - namespace: rhacs-test-policies
   enforcementActions:
     - "FAIL_DEPLOYMENT_CREATE_ENFORCEMENT"
     - "FAIL_DEPLOYMENT_UPDATE_ENFORCEMENT"

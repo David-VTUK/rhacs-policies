@@ -2,7 +2,7 @@ apiVersion: platform.stackrox.io/v1
 kind: SecurityPolicy
 metadata:
   name: "Enforce_Read_Only_Root_Filesystem"
-  namespace: stackrox
+  namespace: rhacs-operator
 spec:
   description: "Enforces that the root filesystem of all containers is mounted as read-only (readOnlyRootFilesystem: true)."
   rationale: "Making the root filesystem read-only prevents attackers from writing malicious binaries or modifying critical system files within the container, significantly reducing the attack surface and maintaining container immutability."
@@ -13,6 +13,8 @@ spec:
     - "Configuration Management"
   lifecycleStages:
     - "DEPLOY"
+  scope:
+    - namespace: rhacs-test-policies
   enforcementActions:
     - "FAIL_DEPLOYMENT_CREATE_ENFORCEMENT"
   policySections:

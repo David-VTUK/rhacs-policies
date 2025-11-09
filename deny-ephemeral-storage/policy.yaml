@@ -2,6 +2,7 @@ apiVersion: config.stackrox.io/v1alpha1
 kind: SecurityPolicy
 metadata:
   name: disallow-ephemeral-storage-emptydir-block
+  namespace: rhacs-operator
 spec:
   policyName: Disallow Ephemeral Storage (EmptyDir Block)
   description: Blocks deployments that use the EmptyDir volume type, a common form of ephemeral storage.
@@ -12,6 +13,8 @@ spec:
   lifecycleStages:
     - DEPLOY
   eventSource: NOT_APPLICABLE
+  scope:
+    - namespace: rhacs-test-policies
   severity: HIGH_SEVERITY
   enforcementActions:
     - FAIL_DEPLOYMENT_CREATE_ENFORCEMENT
