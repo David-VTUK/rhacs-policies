@@ -1,13 +1,14 @@
-apiVersion: platform.stackrox.io/v1
+apiVersion: config.stackrox.io/v1alpha1
 kind: SecurityPolicy
 metadata:
-  name: Enforce_Liveness_And_Readiness_Probes
+  name: enforce-liveness-and-readiness-probes
   namespace: rhacs-operator
 spec:
+  policyName: Enforce the use of Liveness and Readiness probes
   description: Requires all containers in a deployment to define both Liveness and Readiness probes.
   rationale: Missing probes prevent Kubernetes from accurately monitoring application health, leading to potential downtime and inability to automatically recover broken containers or verify service readiness.
   remediation: Configure a livenessProbe and a readinessProbe for all containers within the deployment specification. The attributes for checking liveness and readiness probes are Boolean fields.
-  severity: CRITICAL
+  severity: HIGH_SEVERITY
   categories:
     - Security Best Practices
     - Configuration Management
@@ -21,11 +22,13 @@ spec:
     - SCALE_TO_ZERO_ENFORCEMENT
     - UNSATISFIABLE_NODE_CONSTRAINT_ENFORCEMENT
   policySections:
-    - sectionName: Check for Missing Probes
+    - sectionName: Rule 1
       policyGroups:
-        - fieldName: Liveness Probe
+        - fieldName: Liveness Probe Defined
+          booleanOperator: OR
           values:
             - value: "false"
-        - fieldName: Readiness Probe
+        - fieldName: Readiness Probe Defined
+          booleanOperator: OR
           values:
             - value: "false"

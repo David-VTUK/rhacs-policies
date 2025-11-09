@@ -1,13 +1,14 @@
-apiVersion: platform.stackrox.io/v1
+apiVersion: config.stackrox.io/v1alpha1
 kind: SecurityPolicy
 metadata:
-  name: "Enforce_Trusted_Image_Signature"
+  name: enforce-trusted-image-signature
   namespace: rhacs-operator
 spec:
+  policyName: Enforce the  use of trusted image signatures
   description: "Blocks deployment of images that are not signed, or whose signatures cannot be verified by the configured trusted image signers. This ensures image authenticity and integrity (checksum verification)."
   rationale: "Images must be signed to ensure they have not been tampered with since they were built. Validating the signature acts as an implicit checksum requirement."
   remediation: "Sign the image using a trusted Cosign key or certificate verification chain configured in RHACS, or exclude the image/deployment from this policy scope."
-  severity: CRITICAL
+  severity: CRITICAL_SEVERITY
   categories:
     - "Integrity"
     - "Security Best Practices"

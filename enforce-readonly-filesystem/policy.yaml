@@ -1,13 +1,14 @@
-apiVersion: platform.stackrox.io/v1
+apiVersion: config.stackrox.io/v1alpha1
 kind: SecurityPolicy
 metadata:
-  name: "Enforce_Read_Only_Root_Filesystem"
+  name: enforce-read-only-filesystem
   namespace: rhacs-operator
 spec:
+  policyName: Enforce the use of a read-only container filesystem
   description: "Enforces that the root filesystem of all containers is mounted as read-only (readOnlyRootFilesystem: true)."
   rationale: "Making the root filesystem read-only prevents attackers from writing malicious binaries or modifying critical system files within the container, significantly reducing the attack surface and maintaining container immutability."
   remediation: "Ensure that the security context for all containers in the deployment explicitly sets readOnlyRootFilesystem: true."
-  severity: CRITICAL
+  severity: CRITICAL_SEVERITY
   categories:
     - "Security Best Practices"
     - "Configuration Management"
@@ -21,8 +22,9 @@ spec:
     - SCALE_TO_ZERO_ENFORCEMENT
     - UNSATISFIABLE_NODE_CONSTRAINT_ENFORCEMENT
   policySections:
-    - sectionName: "Container uses read-write root filesystem"
+    - sectionName: Rule 1
       policyGroups:
-        - fieldName: "Read-Only Root Filesystem"
+        - fieldName: Read-Only Root Filesystem
+          booleanOperator: OR
           values:
             - value: "false"
